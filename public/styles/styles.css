@@ -4,6 +4,28 @@
     background-size: 100%; 
     background-repeat: no-repeat; 
 }
+
+.footer-container{
+    margin: auto;
+    height: 30vh;
+    background-color: rgb(239, 243, 234); 
+}
+
+#blog-container{
+    margin: auto;
+}
 .blog{
     margin: auto;
+    padding: 20px;
+    display: block;
+}
+.create-form{
+}
+input,label{
+    display: block;
+    width: 100%;
+    padding: 20px;
+}
+#editor{
+    height: 50%;
 }
