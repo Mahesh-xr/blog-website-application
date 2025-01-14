@@ -1,0 +1,12 @@
+<%- include("partials/header.ejs") %>
+
+<div class="main-content">
+    <h2><%= blog.title %></h2>
+    <h3><%= blog.subTitle %></h3>
+    <p><strong>By: </strong><%= blog.author %> | <%= blog.date %></p>
+    <div class="blog-content">
+        <%= blog.content %> <!-- Display the main content of the blog -->
+    </div>
+</div>
+
+<%- include('partials/footer.ejs') %>
