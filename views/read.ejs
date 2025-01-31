@@ -5,8 +5,11 @@
     <h3><%= blog.subTitle %></h3>
     <p><strong>By: </strong><%= blog.author %> | <%= blog.date %></p>
     <div class="blog-content">
-        <%= blog.content %> <!-- Display the main content of the blog -->
+        <%- blog.content %> <!-- Display the main content of the blog -->
     </div>
+    <form action="/update/<%= blog.id %>" method="GET" style="display:inline-block;">
+        <button class="btn btn-secondary" type="submit">Update</button>
+    </form>
 </div>
 
 <%- include('partials/footer.ejs') %>

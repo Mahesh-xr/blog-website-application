@@ -1,16 +1,17 @@
-// public/js/main.js
-window.addEventListener('DOMContentLoaded', (event) => {
-  ClassicEditor
-      .create(document.querySelector('#editor'), {
-          toolbar: [
-              'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
-              'alignment', 'blockQuote', 'insertTable', 'undo', 'redo'
-          ],
-          height: 0,
-          width: '50%',
-          enterMode: ClassicEditor.ENTER_BR,  // set it to use <br> instead of <p> when Enter is pressed
-      })
-      .catch(error => {
-          console.error(error);
-      });
+document.addEventListener('DOMContentLoaded', () => {
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: [
+                'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
+                'alignment', 'blockQuote', 'insertTable', 'undo', 'redo'
+            ],
+            height: '300px', // Set a proper height
+            enterMode: 'BR' // Ensure <br> tags are used on Enter
+        })
+        .then(editor => {
+            console.log('CKEditor initialized successfully!');
+        })
+        .catch(error => {
+            console.error('Error initializing CKEditor:', error);
+        });
 });

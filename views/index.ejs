@@ -1,8 +1,9 @@
 <%- include("partials/header.ejs") %>
-
  <div id="blog-container">
-    <% if (!locals.blogs) { %>
-        <p>No blogs available. Submit the first one!</p>
+    <% if (locals.blogs.length === 0) { %>
+        <div class="blog">
+            <p >OOPS! No blogs available. Submit the first one!</p>
+        </div>
     <% } else { %>
         <% blogs.forEach(blog => { %>
             <div class="blog">
@@ -25,9 +26,5 @@
             </div>
         <% }); %>
     <% } %>
-    <a class="btn btn-primary" href='/create'>Create Blog</a>
-
 </div>
-
-
 <%- include('partials/footer.ejs') %>

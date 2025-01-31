@@ -1,120 +1,119 @@
 import express from 'express';
-import Bodyparser from 'body-parser'
 import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
-var blogId = 0;
-let allblogs = []
+let blogId = 0;
+let allblogs = [];
 
 app.use(express.static("public"));
-app.use(Bodyparser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/',(req, res)=>{
-    res.render("index.ejs", {blogs:allblogs});
+// Middleware to add current route info
+app.use((req, res, next) => {
+    res.locals.currentRoute = req.path;
+    next();
 });
 
- 
+// Home Route
+app.get('/', (req, res) => {
+    res.render("index.ejs", { 
+        blogs: allblogs, 
+        title: "Discover Stories, Insights, and Updates" 
+    });
+});
 
-
+// Create Route
 app.route("/create")
-    .get((req, res)=>{
-    res.render("create.ejs");
-})
-    .post((req, res)=>{
-        const { title, subTitle, author, content ,date} = req.body;
-        // Create an object to store the data
+    .get((req, res) => {
+        res.render("create.ejs", { title: "Create Your Own Blog, Your own World" });
+    })
+    .post((req, res) => {
+        const { title, subTitle, author, content, date } = req.body;
         const newBlog = {
-            id : ++blogId,
-            title,      // Title from form
-            subTitle,   // Sub Title from form
-            author,     // Author name from form
-            content ,    // Content from form
-            date
-        };
-        allblogs.push(newBlog)
-    res.redirect("/")
-});
-
-app.route("/update/:id")
-    .get((req, res)=>{
-    var targetId = req.params.id;
-    console.log(targetId)
-    let foundBlog = null;
-
-    for (let i = 0; i < allblogs.length; i++) {
-        if (allblogs[i].id == targetId) {
-            foundBlog = allblogs[i];
-            break; // Exit the loop once found
-        }
-        else{
-            console.log(allblogs[i].id)
-        }
-}
-    console.log(foundBlog)
-    res.render("update.ejs",{blog:foundBlog});
-})
-    app.post('/update/:id', (req, res) => {
-    const blogId = parseInt(req.params.id);
-    const { title, subTitle, author, content } = req.body;
-
-    const index = allblogs.findIndex(blog => blog.id === blogId);
-
-    if (index !== -1) {
-        allblogs[index] = {
-            id: blogId,
+            id: ++blogId,
             title,
             subTitle,
             author,
             content,
-            date: new Date().toLocaleDateString()
+            date
         };
-    
-        res.redirect('/');  // Redirect after the update.
+        allblogs.push(newBlog);
+        res.redirect("/");
+    });
+
+// Update Route
+app.route("/update/:id")
+    .get((req, res) => {
+        const targetId = parseInt(req.params.id);
+        const foundBlog = allblogs.find(blog => blog.id === targetId);
+
+        if (foundBlog) {
+            res.render("update.ejs", {
+                blog: foundBlog,
+                title: "Edit and Enhance Your Content"
+            });
+        } else {
+            res.send("Blog not found");
+        }
+    })
+    .post((req, res) => {
+        const targetId = parseInt(req.params.id);
+        const { title, subTitle, author, content } = req.body;
+        const index = allblogs.findIndex(blog => blog.id === targetId);
+
+        if (index !== -1) {
+            allblogs[index] = {
+                id: targetId,
+                title,
+                subTitle,
+                author,
+                content,
+                date: new Date().toLocaleDateString()
+            };
+            res.redirect(`/read/${targetId}`);
+        } else {
+            res.send("Blog not found");
+        }
+    });
+
+// Read Route
+app.get('/read/:id', (req, res) => {
+    const targetId = parseInt(req.params.id);
+    const foundBlog = allblogs.find(blog => blog.id === targetId);
+
+    if (foundBlog) {
+        res.render("read.ejs", {
+            blog: foundBlog,
+            title: "Your Gateway to Knowledge and Inspiration"
+        });
     } else {
-        res.send('Blog not found');
+        res.send("Blog not found");
     }
 });
 
-app.get('/read/:id',(req,res)=>{
-    var targetId = req.params.id;
-    let foundBlog = null;
-
-    for (let i = 0; i < allblogs.length; i++) {
-        if (allblogs[i].id == targetId) {
-            foundBlog = allblogs[i];
-            break; // Exit the loop once found
-        }
-        else{
-            console.log(allblogs[i].id)
-        }
-}
-    const blogToShow = foundBlog;
-    res.render('read.ejs',{blog:blogToShow})
-})
-
-
-app.post('/delete/:id',(req,res)=>{
-    var targetId = req.params.id;
-    let foundBlog = null;
-
-    for (let i = 0; i < allblogs.length; i++) {
-        if (allblogs[i].id == targetId) {
-            foundBlog = allblogs[i];
-            break; // Exit the loop once found
-        }
-        else{
-            console.log(allblogs[i].id)
-        }
-}
-    allblogs.pop(foundBlog);
-    res.redirect("/")
-})
-app.listen(port, (req,res) =>{
-    console.log("server running at port 3000...");
+// Delete Route
+app.post('/delete/:id', (req, res) => {
+    const targetId = parseInt(req.params.id);
+    allblogs = allblogs.filter(blog => blog.id !== targetId);
+    res.redirect("/");
 });
 
-app.get("/contact", (req, res)=>{
-    res.render("contact.ejs");
+// Contact Route
+app.get("/contact", (req, res) => {
+    res.render("contact.ejs", {
+        title: "Get in Touch, We love to Hear from you"
+    });
 });
-  
+
+// About Route
+app.get("/about", (req, res) => {
+    res.render("about.ejs", {
+        title: "Discover the Story Behind the Blog"
+    });
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running at port ${port}...`);
+});

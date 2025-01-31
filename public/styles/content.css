@@ -1,0 +1,91 @@
+/* Nav Container Animation and Styles */
+.nav-container {
+    height: 50vh;
+    background-image: url('../images/header-bg.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: relative;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+#logo{
+    width: 40px;
+    
+}
+.nav-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.header-text {
+    font-family: "Poppins", serif;
+    color: whitesmoke;
+    -webkit-text-stroke-width: 0.8px;
+    -webkit-text-stroke-color: black;
+    font-size: 2rem !important;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+}
+
+/* Footer Animation and Styles */
+.footer-container {
+    margin-top: 10px;
+    height: 30vh;
+    background-color: rgb(240, 241, 239);
+    width: 100%;
+    bottom: 0;
+    font-size: 1.2rem;
+    font-family: "Poppins", serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    animation: slideInUp 1.5s ease-in-out;
+}
+
+.footer-container svg {
+    animation: bounce 2s infinite;
+}
+
+/* Body Animation and Styles */
+body {
+    font-family: "Poppins", serif;
+    font-size: 1.2rem;
+    background: linear-gradient(to bottom, #f7f8fa, #eaeaea);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Blog Container Animation */
+#blog-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.blog {
+    margin: auto;
+    padding: 20px;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+/* Form Styles */
+
+
+
+
+
+
+/* Button Animations and Styles */
